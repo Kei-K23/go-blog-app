@@ -15,7 +15,9 @@ import (
 var db *sql.DB
 
 func init() {
+	
 	var err error
+	
 	url := "libsql://go-blog-app-kei-k23.turso.io?authToken=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDk3MjI4MzEsImlkIjoiZmQ0MmYxMTgtNjQ0Mi00ZWZlLWEwODMtZmU5ODg5OTUyMTRkIn0.1N0st4ziWW-w9EJdyktWX1sLgXQ-mCk2g2f3zYeE5aLmb8lveHusvWJPaVC1t4trwBq4vf-Lp65s-S42YEoSBA"
 
 	db, err = sql.Open("libsql", url)
@@ -23,7 +25,7 @@ func init() {
 		fmt.Fprintf(os.Stderr, "failed to open db %s: %s", url, err)
 		os.Exit(1)
 	}
-	defer db.Close()
+
 	fmt.Println("Successfully connected to database")
 }
 
@@ -34,7 +36,10 @@ func main() {
 	blogHandler := handlers.BlogHandler{}
 
 	mux.Handle("GET /", templ.Handler(baseHandler.ShowHome()))
-	mux.Handle("GET /create", templ.Handler(blogHandler.ShowCreate()))
+	mux.Handle("GET /create", templ.Handler(blogHandler.ShowCreate(db)))
+	mux.HandleFunc("POST /create", func(w http.ResponseWriter, r *http.Request) {
+		blogHandler.CreateBlog(w, r , db)
+	})
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/a-h/templ"
 )
 
-type BaseHandler struct {}
+type BaseHandler struct{}
 
 func (h *BaseHandler) ShowHome() templ.Component {
 	return home.ShowHome()
