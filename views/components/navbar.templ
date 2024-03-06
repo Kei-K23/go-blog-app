@@ -3,10 +3,17 @@ package components
 templ Navbar() {
 <nav class="navbar bg-body-tertiary">
     <div class="container-lg">
-        <a class="navbar-brand" href="/">
-        <i class="fa-solid fa-blog"></i>
-        TechBlog
-        </a>
+        <div class="d-flex w-100 justify-content-between align-item-center">
+            <div>
+                <a class="navbar-brand" href="/">
+                <i class="fa-solid fa-blog"></i>
+                TechBlog
+                </a>
+            </div>
+            <div>
+                <a class="btn btn-primary" href="/create" role="button"><i class="fa-solid fa-plus"></i></a>
+            </div>
+        </div>
     </div>
 </nav>
 }
