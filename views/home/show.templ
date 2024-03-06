@@ -1,23 +1,45 @@
 package home
 
 import "github.com/Kei-K23/go-blog-app/views/layout"
+import "github.com/Kei-K23/go-blog-app/services"
+import "fmt"
 
 var greeting = "Welcome"
 
-templ ShowHome() {
-    @layout.Base() {
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <h3 class="mt-3 text-center">Welcome to <span class="text-primary">TeachBlog</span></h3>
-                    <form class="mt-3 d-flex align-items-start gap-2">
-                        <div class="mb-3 flex-grow-1">
-                            <input type="text" class="form-control w-full" palceholder="search..." />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+templ ShowHome(blogs []services.Blog) {
+@layout.Base() {
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h3 class="mt-3 text-center">Welcome to <span class="text-primary">TeachBlog</span></h3>
+            <form class="mt-3 d-flex align-items-start gap-2">
+                <div class="mb-3 flex-grow-1">
+                    <input type="text" class="form-control w-full" palceholder="search..." />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <h4 class="mt-3 text-center">Recent blogs</h4>
+    <div class="container mb-5">
+        <div class="row">
+            for _, blog := range blogs {
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{ blog.Title }</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{ blog.Description }</h6>
+                        <p class="card-text">
+                        { blog.Body }
+                        </p>
+                        <a href={templ.SafeURL("/blogs/" + fmt.Sprint(blog.ID))} class="card-link">read more</a>
+                    </div>
                 </div>
             </div>
+            }
         </div>
-    }
+    </div>
+</div>
+}
 }

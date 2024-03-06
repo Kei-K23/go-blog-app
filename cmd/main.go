@@ -35,7 +35,7 @@ func main() {
 	baseHandler := handlers.BaseHandler{}
 	blogHandler := handlers.BlogHandler{}
 
-	mux.Handle("GET /", templ.Handler(baseHandler.ShowHome()))
+	mux.Handle("GET /", templ.Handler(baseHandler.ShowHome(db)))
 	mux.Handle("GET /create", templ.Handler(blogHandler.ShowCreate(db)))
 	mux.HandleFunc("POST /create", func(w http.ResponseWriter, r *http.Request) {
 		blogHandler.CreateBlog(w, r , db)
