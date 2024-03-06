@@ -1,0 +1,15 @@
+package detailBlog
+
+import "github.com/Kei-K23/go-blog-app/services"
+
+templ ShowBlog(blog services.Blog) {
+    <div class="container-lg">
+        <h1 class="fs-1 fw-bolder font-monospace">{ blog.Title } ({ blog.CreatedAt.Format("-") })</h1>
+        <h2 class="fs-3 fw-bold">
+        { blog.Description }
+        </h2>
+        <p class="fs-4">
+            { blog.Body }
+        </p>
+    </div>
+}

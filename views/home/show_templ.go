@@ -40,7 +40,7 @@ func ShowHome(blogs []services.Blog) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, blog := range blogs {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"col-12 col-md-6 col-lg-4 mb-2\"><div class=\"card\"><div class=\"card-body\"><h5 class=\"card-title\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"col-12 col-md-6 col-lg-4 mb-4\"><div class=\"card\"><div class=\"card-body\"><h5 class=\"card-title\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

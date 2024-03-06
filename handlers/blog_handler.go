@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/Kei-K23/go-blog-app/services"
+	detailBlog "github.com/Kei-K23/go-blog-app/views/blog"
 	"github.com/Kei-K23/go-blog-app/views/create"
 	"github.com/a-h/templ"
 )
@@ -14,6 +16,17 @@ type BlogHandler struct{}
 
 func (h *BlogHandler) ShowCreate(db *sql.DB) templ.Component {
 	return create.ShowCreatePage()
+}
+
+func (h *BlogHandler) ShowBlog(db *sql.DB, id int) templ.Component {
+  blogService := services.BlogService{}
+  blog , err := blogService.GetBlog(db, id)
+
+  if err != nil { 
+	fmt.Println("Not Found: ", err)
+  }
+
+  return detailBlog.ShowBlog(blog)
 }
 
 func (h *BlogHandler) CreateBlog(w http.ResponseWriter, r *http.Request, db *sql.DB) {

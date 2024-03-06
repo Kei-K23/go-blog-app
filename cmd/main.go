@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/Kei-K23/go-blog-app/handlers"
 	"github.com/a-h/templ"
@@ -36,7 +37,18 @@ func main() {
 	blogHandler := handlers.BlogHandler{}
 
 	mux.Handle("GET /", templ.Handler(baseHandler.ShowHome(db)))
+	mux.HandleFunc("GET /blogs/{id}", func(w http.ResponseWriter, r *http.Request) {
+		idPath := r.PathValue("id") 
+		id , err := strconv.Atoi(idPath)
+		if err!= nil {
+            http.Error(w, err.Error(), http.StatusBadRequest)
+            return
+        }
+		templ.Handler(blogHandler.ShowBlog(db, id))
+	})
+
 	mux.Handle("GET /create", templ.Handler(blogHandler.ShowCreate(db)))
+
 	mux.HandleFunc("POST /create", func(w http.ResponseWriter, r *http.Request) {
 		blogHandler.CreateBlog(w, r , db)
 	})

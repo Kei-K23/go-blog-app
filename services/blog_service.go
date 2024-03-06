@@ -48,3 +48,26 @@ func (s *BlogService ) GetBlogs(db *sql.DB) ([]Blog, error) {
 	return blogs , err
 
 }
+
+func (s *BlogService) GetBlog(db *sql.DB, id int) (Blog, error) {
+    rows, err := db.Query("SELECT * FROM blogs WHERE id = ?", id)
+    if err != nil {
+        return Blog{}, err // Return an empty instance of Blog and the error
+    }
+    defer rows.Close()
+
+    var blog Blog
+
+    for rows.Next() {
+        err := rows.Scan(&blog.ID, &blog.Title, &blog.Description, &blog.Body, &blog.IsPublic, &blog.CreatedAt, &blog.UpdatedAt)
+        if err != nil {
+            return Blog{}, err // Return an empty instance of Blog and the error
+        }
+    }
+
+    if err := rows.Err(); err != nil {
+        return Blog{}, err // Return an empty instance of Blog and the error
+    }
+
+    return blog, nil // Return the retrieved blog and no error
+}
