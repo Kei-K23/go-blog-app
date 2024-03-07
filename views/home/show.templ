@@ -31,7 +31,7 @@ templ ShowHome(blogs []services.Blog) {
                         <h5 class="card-title">{ blog.Title }</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">{ blog.Description }</h6>
                         <p class="card-text">
-                        { blog.Body }
+                            @templ.Raw(blog.Body)
                         </p>
                         <a href={templ.SafeURL("/blogs/" + fmt.Sprint(blog.ID))} class="card-link">read more</a>
                     </div>

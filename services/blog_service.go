@@ -2,6 +2,7 @@ package services
 
 import (
 	"database/sql"
+	"html/template"
 	"time"
 
 	"github.com/google/uuid"
@@ -11,7 +12,7 @@ type Blog struct {
 	ID          string
 	Title       string
 	Description string
-	Body        string
+	Body        template.HTML
 	IsPublic    bool
 	CreatedAt   time.Time
 	UpdatedAt   time.Time

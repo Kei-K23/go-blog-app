@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"html/template"
 	"time"
 
 	"github.com/Kei-K23/go-blog-app/services"
@@ -43,7 +44,7 @@ func (h *BlogHandler) CreateBlog(e  echo.Context, db *sql.DB) error {
 	blog := services.Blog{
 		Title:       title,
 		Description: description,
-		Body:        body,
+		Body:        template.HTML(body),
 		IsPublic:    isPublic,
 		CreatedAt:   time.Now().Local().UTC(),
 		UpdatedAt:   time.Now().Local().UTC(),

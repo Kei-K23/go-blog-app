@@ -11,7 +11,7 @@ templ ShowBlog(blog services.Blog) {
         { blog.Description }
         </h2>
         <p class="fs-4">
-            { blog.Body }
+           @templ.Raw(blog.Body)
         </p>
     </div>
     }
