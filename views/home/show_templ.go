@@ -35,7 +35,7 @@ func ShowHome(blogs []services.Blog) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container\"><div class=\"row justify-content-center\"><div class=\"col-md-6\"><h3 class=\"mt-3 text-center\">Welcome to <span class=\"text-primary\">TeachBlog</span></h3><form class=\"mt-3 d-flex align-items-start gap-2\"><div class=\"mb-3 flex-grow-1\"><input type=\"text\" class=\"form-control w-full\" palceholder=\"search...\"></div><button type=\"submit\" class=\"btn btn-primary\">Submit</button></form></div></div><h4 class=\"mt-3 text-center\">Recent blogs</h4><div class=\"container mb-5\"><div class=\"row\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container\"><div class=\"row justify-content-center\"><div class=\"col-md-6\"><h3 class=\"mt-3 text-center\">Welcome to <span class=\"text-primary\">TeachBlog</span></h3></div></div><h4 class=\"mt-3 text-center\">Recent blogs</h4><div class=\"container mb-5\"><div class=\"row\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

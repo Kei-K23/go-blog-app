@@ -1,10 +1,12 @@
 package detailBlog
 
 import "github.com/Kei-K23/go-blog-app/services"
+import "github.com/Kei-K23/go-blog-app/views/layout"
 
 templ ShowBlog(blog services.Blog) {
-    <div class="container-lg">
-        <h1 class="fs-1 fw-bolder font-monospace">{ blog.Title } ({ blog.CreatedAt.Format("-") })</h1>
+    @layout.Base() {
+    <div class="container-lg mt-4">
+        <h1 class="fs-1 fw-bolder font-monospace">{ blog.Title } ({ blog.CreatedAt.Format("2006-01-02") })</h1>
         <h2 class="fs-3 fw-bold">
         { blog.Description }
         </h2>
@@ -12,4 +14,5 @@ templ ShowBlog(blog services.Blog) {
             { blog.Body }
         </p>
     </div>
+    }
 }

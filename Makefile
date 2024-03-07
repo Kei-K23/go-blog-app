@@ -3,7 +3,10 @@ PORT := :8080
 
 run:
 	templ generate
-	PORT=$(PORT) go run cmd/main.go
+	PORT=$(PORT) 
+	go run cmd/main.go
 
-format:
-	go fmt views/**
+fmt:
+	go fmt cmd/main.go
+	go fmt handlers/**
+	go fmt services/**
