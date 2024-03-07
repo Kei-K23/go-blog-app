@@ -8,6 +8,7 @@ import (
 	"github.com/Kei-K23/go-blog-app/handlers"
 	"github.com/Kei-K23/go-blog-app/lib"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
@@ -34,8 +35,13 @@ func main() {
 
 	e := echo.New()
 
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
 	baseHandler := handlers.BaseHandler{}
 	blogHandler := handlers.BlogHandler{}
+	imageUploadHandler := handlers.ImagesUploadHandler{}
+
 
 	e.GET("/", func(c echo.Context) error {
 		return handlers.Render(c, baseHandler.ShowHome(db))
@@ -55,6 +61,10 @@ func main() {
 	e.POST("/blogs", func(c echo.Context) error {
 		return blogHandler.CreateBlog(c, db)
 	})
+
+	e.POST("/upload", imageUploadHandler.UploadHandler)
+	
+	e.GET("/images/*", imageUploadHandler.ServeImages)
 	
 	e.Logger.Fatal(e.Start(":8080"))
 
