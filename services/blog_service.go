@@ -27,6 +27,18 @@ func (s *BlogService) CreateBlog(db *sql.DB, blog Blog) error {
 	return err
 }
 
+func (s *BlogService) UpdateBlog(db *sql.DB, blog Blog) error {
+    _, err := db.Exec("UPDATE blogs SET title=?, description=?, body=?, is_public=?, updated_at=? WHERE id=?", 
+        blog.Title, blog.Description, blog.Body, blog.IsPublic, blog.UpdatedAt, blog.ID)
+    return err
+}
+
+func (s *BlogService) DeleteBlog(db *sql.DB, id string) error {
+    _, err := db.Exec("DELETE FROM blogs WHERE id=?", id)
+    return err
+}
+
+
 func (s *BlogService) GetBlogs(db *sql.DB) ([]Blog, error) {
 	rows, err := db.Query("SELECT * FROM blogs ORDER BY created_at DESC")
 

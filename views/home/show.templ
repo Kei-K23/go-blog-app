@@ -53,7 +53,9 @@ templ ShowHome(blogs []services.Blog) {
             <div class="col-12 col-md-6 col-lg-4 mb-4">
                 <div class="card" >
                     if extractSrc(string(blog.Body)) != "" {
-                    <img src={ string(extractSrc(string(blog.Body))) } class="card-img-top" alt={string(blog.Title + "'s img")} />
+                    <img style="height: 190px" src={ string(extractSrc(string(blog.Body))) } class="card-img-top" alt={string(blog.Title + "'s img")} />
+                    } else {
+                    <img style="height: 190px" src="../../images/palceholder_blog_img.png" class="card-img-top" alt="placeholder img" />
                     }
                     <div class="card-body">
                         <h5 class="card-title">{ blog.Title }</h5>

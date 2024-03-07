@@ -3,10 +3,15 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/Kei-K23/go-blog-app/handlers"
 	"github.com/Kei-K23/go-blog-app/lib"
+	"github.com/Kei-K23/go-blog-app/services"
+	"github.com/Kei-K23/go-blog-app/views/errorShow"
+	"github.com/Kei-K23/go-blog-app/views/notfound"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
@@ -18,7 +23,11 @@ func init() {
 
 	var err error
 
-	url := "libsql://go-blog-app-kei-k23.turso.io?authToken=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDk3MjI4MzEsImlkIjoiZmQ0MmYxMTgtNjQ0Mi00ZWZlLWEwODMtZmU5ODg5OTUyMTRkIn0.1N0st4ziWW-w9EJdyktWX1sLgXQ-mCk2g2f3zYeE5aLmb8lveHusvWJPaVC1t4trwBq4vf-Lp65s-S42YEoSBA"
+	 err = godotenv.Load(".env")
+ if err != nil{
+  log.Fatalf("Error loading .env file: %s", err)
+ }
+ 	url := os.Getenv("DB_URL")
 
 	db, err = sql.Open("libsql", url)
 	if err != nil {
@@ -61,6 +70,37 @@ func main() {
 	e.POST("/blogs", func(c echo.Context) error {
 		return blogHandler.CreateBlog(c, db)
 	})
+	
+	e.GET("/blogs/:id/edit", func(c echo.Context) error {
+		id := c.Param("id")
+		blogService := services.BlogService{}
+		blog, err := blogService.GetBlog(db, id)
+
+		if err != nil { 
+			return handlers.Render(c , notfound.NotfoundShow())
+		}
+		
+		return handlers.Render(c , blogHandler.EditBlog(db, blog))
+	})
+	
+	e.GET("/blogs/:id/delete", func(c echo.Context) error {
+		id := c.Param("id")
+	
+		blogService := services.BlogService{}
+		err := blogService.DeleteBlog(db , id)
+
+if  err != nil {
+		return handlers.Render(c , errorShow.ErrorShow(err.Error()))
+}
+
+		return handlers.Render(c, baseHandler.ShowHome(db))
+	})
+
+
+	e.POST("/blogs/edit", func(c echo.Context) error {
+		return blogHandler.UpdateBlog(c , db)
+	} )
+	
 
 	e.POST("/upload", imageUploadHandler.UploadHandler)
 	

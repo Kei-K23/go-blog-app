@@ -1,0 +1,70 @@
+package edit
+
+import "github.com/Kei-K23/go-blog-app/views/layout"
+import "github.com/Kei-K23/go-blog-app/services"
+
+func isCheck (isPublic bool) string {
+    if isPublic {
+        return "checked"
+    } 
+    return ""
+}
+
+templ ShowEditPage(blog services.Blog) {
+@layout.Base() {
+    <script src="https://cdn.tiny.cloud/1/5sg0q5e97evp2i5a97nt8q3i5zkjot0hxqhboodm81slvbk7/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+<!-- Place the following <script> and <textarea> tags your HTML's <body> -->
+<script>
+  tinymce.init({
+    selector: '#body',
+     plugins: 'image',
+    toolbar: 'undo redo | blocks | image | ' +
+        'bold italic backcolor | alignleft aligncenter ' +
+        'alignright alignjustify | bullist numlist outdent indent | ' +
+        'removeformat | help',
+    images_upload_url: "/upload",
+    relative_urls : false,
+    remove_script_host : false,
+    convert_urls : true,
+  })
+</script>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h4 class="mt-3 text-center">Edit your blog here</h4>
+            <form action="/blogs/edit" class="mt-3" method="post">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input value={ blog.Title } id="title" type="text" name="title" class="form-control" placeholder="Title" required />
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <input value={ blog.Description } id="description" type="text" name="description" class="form-control" placeholder="Description" />
+                </div>
+                <div class="mb-3">
+                    <label for="body" class="form-label">Body</label>
+                    <textarea id="body" class="form-control" name="body" rows="3"> { string(blog.Body) }  </textarea>
+                </div>
+                <div class="form-check">
+                    if blog.IsPublic {
+                    <input name="isPublic" class="form-check-input" type="checkbox" id="isPublic"  
+                    checked
+                    />
+                    } else {
+                      <input name="isPublic" class="form-check-input" type="checkbox" id="isPublic"  
+                    />  
+                    }
+                    
+                    <label class="form-check-label" for="isPublic">
+                        Public
+                    </label>
+                </div>
+                <input type="hidden" value={ blog.ID } name="id" />
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+}
+}
